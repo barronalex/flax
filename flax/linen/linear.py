@@ -404,9 +404,11 @@ class Embed(Module):
       Output which is embedded input data.  The output shape follows the input,
       with an additional `features` dimension appended.
     """
+    inputs = jnp.asarray(inputs)
     if not jnp.issubdtype(inputs.dtype, jnp.integer):
       raise ValueError('Input type must be an integer or unsigned integer.')
-    return self.embedding[inputs]
+    embedding = jnp.asarray(self.embedding, self.dtype)
+    return embedding[inputs]
 
   def attend(self, query):
     """Attend over the embedding using a query array.
